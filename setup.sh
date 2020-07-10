@@ -1,0 +1,9 @@
+export SECRET='secret-key'
+export ASSISTANT_TOKEN=''
+export DIRECTOR_TOKEN=''
+export PRODUCER_TOKEN=''
+export AUTH0_DOMAIN=''
+export API_AUDIENCE=''
+export ALGORITHMS=['RS256']
+export FLASK_APP=flaskr
+export FLASK_ENV=development
