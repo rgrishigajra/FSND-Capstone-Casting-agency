@@ -2,21 +2,21 @@ import os
 from sqlalchemy import Column, String, Integer, Date, create_engine, ForeignKey, Table
 from flask_sqlalchemy import SQLAlchemy
 import json
-
+from flask_migrate import Migrate
 database_name = "casting_agency"
-database_path = "postgres://{}/{}".format('localhost:5432', database_name)
+database_path = "postgresql://{}/{}".format('localhost:5432', database_name)
 
 db = SQLAlchemy()
-
-'''
-setup_db(app)
-    binds a flask application and a SQLAlchemy service
-'''
 
 movie_actor_table = Table('movie_actor_table', db.Model.metadata,
                           Column('movie_id', Integer, ForeignKey('movies.id')),
                           Column('actor_id', Integer, ForeignKey('actors.id')))
 
+
+'''
+setup_db(app)
+    binds a flask application and a SQLAlchemy service
+'''
 
 def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
@@ -24,7 +24,13 @@ def setup_db(app, database_path=database_path):
     db.app = app
     db.init_app(app)
     db.create_all()
+    migrate = Migrate(app, db)
 
+def db_drop_and_create_all():
+    """drops the database tables and starts fresh
+    can be used to initialize a clean database"""
+    db.drop_all()
+    db.create_all()
 
 class Movie(db.Model):
     __tablename__ = 'movies'
