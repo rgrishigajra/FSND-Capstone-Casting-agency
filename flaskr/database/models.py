@@ -2,10 +2,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 db = SQLAlchemy()
+database_path = "postgresql://rishabhgajra@localhost:5432/casting_agency"
 
 
-def setup_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://rishabhgajra@localhost:5432/casting_agency"
+def setup_db(app, database_path=database_path):
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
@@ -15,6 +16,14 @@ def setup_db(app):
 def create_and_drop_all():
     db.drop_all()
     db.create_all()
+
+
+actor_movie_relationship_table = db.Table('movies_actiors_worked_in',
+                                          db.Column('movie_id', db.Integer, db.ForeignKey(
+                                              'movies.id'), primary_key=True),
+                                          db.Column('actor_id', db.Integer, db.ForeignKey(
+                                              'actors.id'), primary_key=True)
+                                          )
 
 
 class Actor(db.Model):
@@ -44,7 +53,7 @@ class Actor(db.Model):
         })
 
     def __repr__(self):
-        return f'Actor:'+self.id+'. '+self.name
+        return f'Actor: {self.id}, {self.name}'
 
 
 class Movie(db.Model):
@@ -53,6 +62,8 @@ class Movie(db.Model):
     title = db.Column(db.String(), nullable=False)
     release_date = db.Column(db.Date(), nullable=False)
     genre = db.Column(db.String(), nullable=False, default='')
+    actors = db.relationship('Actor', secondary=actor_movie_relationship_table,
+                             backref=db.backref('movie', lazy=True))
 
     def insert(self):
         db.session.add(self)
@@ -74,4 +85,4 @@ class Movie(db.Model):
         })
 
     def __repr__(self):
-        return f'Movie:'+self.id+'. '+self.title
+        return f'Movie:{self.id}, {self.title}'
