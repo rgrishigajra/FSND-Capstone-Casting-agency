@@ -9,7 +9,9 @@ from flask import abort
 AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
 ALGORITHMS = os.getenv('ALGORITHMS')
 API_AUDIENCE = os.getenv('API_AUDIENCE')
-
+ASSISTANT_TOKEN = os.getenv('ASSISTANT_TOKEN')
+DIRECTOR_TOKEN = os.getenv('DIRECTOR_TOKEN')
+PRODUCER_TOKEN = os.getenv('PRODUCER_TOKEN')
 # AuthError Exception
 '''
 AuthError Exception
@@ -21,6 +23,7 @@ class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
+
     def __repr__(self):
         return 'class'+str(self.error)+" code "+str(self.status_code)+' what'
 
@@ -71,6 +74,7 @@ def get_token_auth_header():
 
 
 def check_permissions(permissions, payload):
+    print(payload['permissions'])
     if 'permissions' not in payload:
         abort(400)
     if permissions not in payload['permissions']:
@@ -140,9 +144,9 @@ def verify_decode_jwt(token):
                 'description': 'Unable to parse authentication token.'
             }, 400)
     raise AuthError({
-                'code': 'invalid_header',
+        'code': 'invalid_header',
                 'description': 'Unable to find the appropriate key.'
-            }, 401)
+    }, 401)
     return unverified_header
 
 
@@ -166,14 +170,13 @@ def requires_auth(permission=''):
             # print(payload)
             if not check_permissions(permission, payload):
                 raise AuthError({
-                'code': 'invalid_header',
-                'description': 'The user doesnt have permissions to perform this step'
-            }, 401) 
+                    'code': 'invalid_header',
+                    'description': 'The user doesnt have permissions to perform this step'
+                }, 401)
             return f(payload, *args, **kwargs)
         return wrapper
     return requires_auth_decorator
 
-ass_token= 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJWRXNSUnYwWUZRUDdtU3g5VGJ0TSJ9.eyJpc3MiOiJodHRwczovL2Rldi1mYzM0eTlscS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYyMjAzYzNjMTNiMTMwMjI4ZjgxM2FhIiwiYXVkIjoiQ2FzdGluZ0FnZW5jeUFQSSIsImlhdCI6MTU5NjA4NDA2NCwiZXhwIjoxNTk2MDkxMjY0LCJhenAiOiJYZXF3T3U2UHNBZUMwYndtMmRkNmdpTlAwSkphYXhJZSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.FwRgsF9chpVTOKedMvPQKuq2BTtEsRMxxay9HO_sAse19rtN-bLAD6qE9f1nTByGnWoxtNZBmpDgl3ZYyioLgpx30AiGo7kzQkBZUUbDABu1PAIi8SSi_QdwMqAd735vIWgI7m3VOYl0PwLuDDbIr1jP3PEAVub3P-tcK3xAWvqUQZDcYIV-zVpooClMdIIeX9mtpmN04Pf6tpr-NcohBXNZDza2qRTThXprklLK9sd5dY7lh9pDfdxrPb4FDb7qL4OQ8I06EmdsYB5opIZ3ghMIdvRbJHhrwp6LMafCAxJVwq2-FsAZFX-RSn5N1vzvxzyvjEDVyJAh3D1E-ZzUhw'
-director_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJWRXNSUnYwWUZRUDdtU3g5VGJ0TSJ9.eyJpc3MiOiJodHRwczovL2Rldi1mYzM0eTlscS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYyMjA2MjI1Yzg0OGYwMDM3YzQxNTJmIiwiYXVkIjoiQ2FzdGluZ0FnZW5jeUFQSSIsImlhdCI6MTU5NjA4Mzk1NiwiZXhwIjoxNTk2MDkxMTU2LCJhenAiOiJYZXF3T3U2UHNBZUMwYndtMmRkNmdpTlAwSkphYXhJZSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiYWRkOmFjdG9ycyIsImRlbGV0ZTphY3RvcnMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJ2aWV3OmFjdG9ycyIsInZpZXc6bW92aWVzIl19.RAfpcwZoiMbZQc6sfekgC5Yy9CyKW4kY4JPOfRptjyrPYqovl1TZ8cCng0CpxyeVq6PvFalGpEEVfcOF9oalTEw50ODRZ4nk7PINpMgfurcTjfibFBOEqBK6_-CuaOSgWdXxAaPDJaTwW3Nnn40Y_sbZeI5UJYS_OaXP5jLKDNZCTiMdLKxrieAEkiL86LZ9jbkQMWdsJLWn089KncWVj6XBjcY7RVTOjWO4QdK8BdI3gXazsY_T1dmPEkmnbYhcJPzrPXAFRgAoGPvMi2yP0_2Fx1BlUDao4J8KlQr-6BxMTYT-SASPu5CirHrkQK8Mll8iffE7Z5nP1JOIAjtdug'
-prod_token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJWRXNSUnYwWUZRUDdtU3g5VGJ0TSJ9.eyJpc3MiOiJodHRwczovL2Rldi1mYzM0eTlscS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYyMjRkNGQ1Yzg0OGYwMDM3YzQxNzFkIiwiYXVkIjoiQ2FzdGluZ0FnZW5jeUFQSSIsImlhdCI6MTU5NjA4Mzg1MSwiZXhwIjoxNTk2MDkxMDUxLCJhenAiOiJYZXF3T3U2UHNBZUMwYndtMmRkNmdpTlAwSkphYXhJZSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiYWRkOmFjdG9ycyIsImFkZDptb3ZpZXMiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInZpZXc6YWN0b3JzIiwidmlldzptb3ZpZXMiXX0.MNTt-R91aRc073xna4LFKDwwBr9pdQb_P-htAG5F4lzll9375VnR-YxKRPKgPGsgpb-_AhB24OLl1x7zoOIR9y7_OUxA48luJkp4kqoJs63MWOA4fR6dUfxVZafw_llx32gouoV_ZzI_TG3HJeRo1fI0OqHZ_OGPsVdMIvSjiHD1F9dYzX1gvtnKoRaZDvv9CtqlcNNIWl2fAhI6kWuimZsrkAkvFgF5QO7FHSSLppJkPKeLDnn_5ZtTIxlHkJg5CJw-pOwIciZn2tZSy9ZF8uIt9nCkhkjOPaGR2bI3_rD73_XfmzM6jeGA3Gg5TGf7IesswUcaOk1q6q3GswiWFA'
-print('\n\nAssistant',verify_decode_jwt(ass_token),'\n\nDirector',verify_decode_jwt(director_token),'\n\nProducer',verify_decode_jwt(prod_token),'\n\n')
+
+print('\n\nAssistant', verify_decode_jwt(ASSISTANT_TOKEN), '\n\nDirector', verify_decode_jwt(
+    DIRECTOR_TOKEN), '\n\nProducer', verify_decode_jwt(PRODUCER_TOKEN), '\n\n')
