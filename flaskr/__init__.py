@@ -70,7 +70,7 @@ def create_app(test_config=None):
             x = str(e)[:3]
             abort(int(x))
 
-    @app.route('/movie/<int:movie_id>', methods=['PATCH'])
+    @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
     def modify_movie(jwt, movie_id):
         print("patch api on /movie hit:\n\n")
@@ -99,7 +99,7 @@ def create_app(test_config=None):
             x = str(e)[:3]
             abort(int(x))
 
-    @app.route('/movie/<int:movie_id>', methods=['DELETE'])
+    @app.route('/movies/<int:movie_id>', methods=['DELETE'])
     @requires_auth('delete:movies')
     def delete_movie(jwt, movie_id):
         print("Delete api on /movie hit:\n\n")
@@ -160,7 +160,7 @@ def create_app(test_config=None):
             x = str(e)[:3]
             abort(int(x))
 
-    @app.route('/actor/<int:actor_id>', methods=['PATCH'])
+    @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
     def modify_actor(jwt, actor_id):
         print("patch api on /actors hit:\n\n")
@@ -189,7 +189,7 @@ def create_app(test_config=None):
             x = str(e)[:3]
             abort(int(x))
 
-    @app.route('/actor/<int:actor_id>', methods=['DELETE'])
+    @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     @requires_auth('delete:actors')
     def delete_actor(jwt, actor_id):
         print("Delete api on /actor hit:\n\n")

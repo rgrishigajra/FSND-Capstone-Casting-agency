@@ -111,8 +111,8 @@ ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movie
 --
 
 COPY public.actors (id, name, age, gender) FROM stdin;
-3	gopi	22	male
-4	rish	22	male
+10	gopi	22	male
+11	rish	22	male
 \.
 
 
@@ -121,7 +121,9 @@ COPY public.actors (id, name, age, gender) FROM stdin;
 --
 
 COPY public.movies (id, title, release_date, genre) FROM stdin;
-2	Avengers	2019-01-02	SuperHero
+10	Avengers	2019-01-02	SuperHero
+9	Avengers 2	2019-01-02	SuperHero
+11	Avengers	2019-01-02	SuperHero
 \.
 
 
@@ -129,14 +131,14 @@ COPY public.movies (id, title, release_date, genre) FROM stdin;
 -- Name: actors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rishabhgajra
 --
 
-SELECT pg_catalog.setval('public.actors_id_seq', 4, true);
+SELECT pg_catalog.setval('public.actors_id_seq', 11, true);
 
 
 --
 -- Name: movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rishabhgajra
 --
 
-SELECT pg_catalog.setval('public.movies_id_seq', 2, true);
+SELECT pg_catalog.setval('public.movies_id_seq', 11, true);
 
 
 --

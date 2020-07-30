@@ -74,7 +74,7 @@ def get_token_auth_header():
 
 
 def check_permissions(permissions, payload):
-    print(payload['permissions'])
+    # print(payload['permissions'])
     if 'permissions' not in payload:
         abort(400)
     if permissions not in payload['permissions']:
