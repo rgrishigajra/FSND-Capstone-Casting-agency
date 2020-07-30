@@ -20,3 +20,4 @@ Werkzeug==0.15.3
 wrapt==1.11.1
 Flask-Cors==3.0.8
 gunicorn
+Flask-Migrate==2.3.1
