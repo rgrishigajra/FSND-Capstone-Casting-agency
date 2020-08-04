@@ -6,7 +6,7 @@ The Casting Agency models a company that is responsible for creating movies and 
 
 ## Motivation for project
 
-This is the capstone project of Udacity fullstack nanodegree program, which demonstrate the skillset of using Flask, SQLAlchemy, Auth0, gunicorn and heroku to develop and deploy a RESTful API.
+This is the capstone project of Udacity fullstack nanodegree program, which demonstrate the skillset of using Flask, SQLAlchemy, Auth0, gunicorn and heroku to develop and deploy a RESTful API. 
 
 ## Getting Started
 
@@ -70,7 +70,7 @@ https://fsnd-casting-agency-udacity.herokuapp.com/
 
 ###### To test live APIs the only way right now to do this is curl requests. Add Auth token headers from logins below to test.
 
-OATH login url
+OATH login url. There are three logins atm, JWTs for these appear in the url after successfull login. Those tokens are needed to test the different APIs.
 
 ```
 https://dev-fc34y9lq.us.auth0.com/authorize?audience=CastingAgencyAPI&response_type=token&client_id=XeqwOu6PsAeC0bwm2dd6giNP0JJaaxIe&redirect_uri=http://localhost:8080/login-results
