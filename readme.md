@@ -72,9 +72,9 @@ https://fsnd-casting-agency-udacity.herokuapp.com/
 
 OATH login url. There are three logins atm, JWTs for these appear in the url after successfull login. Those tokens are needed to test the different APIs.
 
-```
+
 https://dev-fc34y9lq.us.auth0.com/authorize?audience=CastingAgencyAPI&response_type=token&client_id=XeqwOu6PsAeC0bwm2dd6giNP0JJaaxIe&redirect_uri=http://localhost:8080/login-results
-```
+
 
 casting Assistant token castingassistant@example.com Qwerty1234
 
